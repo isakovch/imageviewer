@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion sdkCompileVersion
+    buildToolsVersion buildToolsAllVersion
+    defaultConfig {
+        applicationId "com.example.imageviewerapp"
+        minSdkVersion sdkMinVersion
+        targetSdkVersion sdkTargetVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/LGPL2.1'
+        pickFirst 'META-INF/rxjava.properties'
+        pickFirst 'META-INF/library_release.kotlin_module'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.code.gson:gson:2.8.0'
+        force 'androidx.annotation:annotation:1.0.0'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation kotlinDependencies.stdlib
+    implementation kotlinDependencies.rxKotlin
+
+    implementation rxDeps.core
+    implementation rxDeps.android
+
+    implementation retrofitDeps.core
+    implementation retrofitDeps.gson
+    implementation retrofitDeps.rxAdapter
+
+    implementation koinDependencies.core
+    implementation koinDependencies.scope
+    implementation koinDependencies.viewModel
+
+    implementation archDeps.paging
+    implementation archDeps.pagingRxKtx
+    implementation archDeps.roomRuntime
+    implementation archDeps.roomRx
+    kapt archDeps.roomCompiler
+
+    implementation otherDeps.appcompat
+    implementation otherDeps.constraintLayout
+    implementation otherDeps.materialDesign
+    implementation otherDeps.timber
+    implementation otherDeps.okHttp
+    implementation otherDeps.okHttpInterceptor
+    implementation otherDeps.glide
+    kapt otherDeps.glideProcessor
+    implementation otherDeps.coreKtx
+    implementation otherDeps.stetho
+}
